@@ -1,0 +1,2 @@
+module Jobler::ApplicationHelper
+end

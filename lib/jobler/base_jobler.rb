@@ -1,0 +1,2 @@
+class Jobler::BaseJobler
+end
