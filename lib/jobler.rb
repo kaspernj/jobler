@@ -1,5 +1,3 @@
-require "jobler/engine"
-
 module Jobler
   path = "#{File.dirname(__FILE__)}/jobler"
 
@@ -9,3 +7,5 @@ module Jobler
   autoload :JobRunner, "#{path}/job_runner"
   autoload :TemplateRenderer, "#{path}/template_renderer"
 end
+
+require "jobler/engine"
