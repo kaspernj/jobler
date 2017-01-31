@@ -1,3 +1,4 @@
 Jobler::Engine.routes.draw do
-  resources :joblers, only: :show
+  resources :downloads, only: :show
+  resources :jobs, only: :show
 end

@@ -1,0 +1,17 @@
+<div class="job" data-id="<%= @job.id %>" data-path="<%= job_path(@job) %>" data-state="<%= @job.state %>"></div>
+
+<% if @job.completed? %>
+  <h1>Completed</h1>
+
+  <% if @result.is_a?(Jobler::FileDownload) %>
+    <%= link_to "Download", download_path(@job) %>
+  <% end %>
+<% else %>
+  <h1>Waiting</h1>
+
+  <div class="job-progress">
+    <% if @job.progress? %>
+      <%= number_with_precision @job.progress, precision: 2 %>%
+    <% end %>
+  </div>
+<% end %>

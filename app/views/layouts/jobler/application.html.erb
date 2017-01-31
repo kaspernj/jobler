@@ -2,11 +2,11 @@
 <html>
 <head>
   <title>Jobler</title>
-  <%= stylesheet_link_tag    "jobler/application", media: "all" %>
+  <%= stylesheet_link_tag "jobler/application", media: "all" %>
   <%= javascript_include_tag "jobler/application" %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body class="controller-<%= controller_name %> action-<%= action_name %>">
 
 <%= yield %>
 
