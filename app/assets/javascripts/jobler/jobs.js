@@ -16,7 +16,7 @@ function updateJobProgress() {
   }})
 
   if (job.data("state") != "completed") {
-    setTimeout("updateJobProgress()", 2000)
+    setTimeout("updateJobProgress()", 5000)
   }
 }
 

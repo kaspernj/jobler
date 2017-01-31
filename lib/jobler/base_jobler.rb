@@ -43,9 +43,13 @@ class Jobler::BaseJobler
   end
 
   def temp_file_for_result(args)
+    job_result = job.results.where(name: args.fetch(:name)).first
+
+    raise "No result by that name: #{args.fetch(:name)}" unless job_result
+
     temp_file = Tempfile.new
     temp_file.binmode
-    temp_file.write(job.results.where(name: args.fetch(:name)).first.result)
+    temp_file.write(job_result.result)
     temp_file.close
     temp_file
   end

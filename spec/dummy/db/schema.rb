@@ -13,22 +13,26 @@
 
 ActiveRecord::Schema.define(version: 20170130220734) do
 
+  create_table "jobler_jobs", force: :cascade do |t|
+    t.string   "jobler_type",                 null: false
+    t.string   "state",       default: "new", null: false
+    t.float    "progress",    default: 0.0,   null: false
+    t.text     "parameters"
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
   create_table "jobler_results", force: :cascade do |t|
-    t.integer  "jobler_id",  null: false
+    t.integer  "job_id",     null: false
+    t.string   "name",       null: false
     t.binary   "result"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_index "jobler_results", ["jobler_id"], name: "index_jobler_results_on_jobler_id"
-
-  create_table "joblers", force: :cascade do |t|
-    t.string   "jobler_type"
-    t.text     "parameters"
-    t.datetime "started_at"
-    t.datetime "completed_at"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-  end
+  add_index "jobler_results", ["job_id"], name: "index_jobler_results_on_job_id"
+  add_index "jobler_results", ["name"], name: "index_jobler_results_on_name"
 
 end
