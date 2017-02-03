@@ -1,0 +1,12 @@
+language: ruby
+cache: bundler
+archive: true
+rvm:
+  - ruby-2.1.2
+  - jruby-1.7.13
+script:
+  - bundle exec rake db:schema:load
+  - bundle exec rspec
+  - bundle exec rake best_practice_project:run
+notifications:
+   email: false
