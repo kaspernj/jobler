@@ -29,7 +29,7 @@ class Jobler::BaseJobler
     end
 
     if update
-      job.update_columns(progress: new_progress)
+      job.update_attributes!(progress: new_progress)
       @_current_progress = new_progress
     end
   end
