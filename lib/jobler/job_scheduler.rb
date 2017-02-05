@@ -11,10 +11,15 @@ class Jobler::JobScheduler
   def initialize(args)
     @jobler_type = args.fetch(:jobler_type)
     @job_args = args[:job_args]
+    @locale = args[:locale]
   end
 
   def create_job
-    @job = Jobler::Job.create!(jobler_type: @jobler_type, parameters: YAML.dump(@job_args))
+    @job = Jobler::Job.create!(
+      jobler_type: @jobler_type,
+      locale: @locale.presence || I18n.locale,
+      parameters: YAML.dump(@job_args)
+    )
   end
 
   def perform_job_later
