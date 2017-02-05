@@ -98,9 +98,10 @@ class TestRenderJobler < Jobler::BaseJobler
     )
   end
 end
+```
 
 This will render the view located at "app/joblers/test_render_jobler/show.*"
-```
+
 
 ## License
 
