@@ -2,7 +2,7 @@ class Jobler::BaseJobler
   attr_reader :args, :job
 
   def create_result!(args)
-    if args[:tempfile]
+    if args[:temp_file]
       temp_file = args.fetch(:temp_file)
       temp_file.close unless temp_file.closed?
       content = File.read(temp_file.path)
