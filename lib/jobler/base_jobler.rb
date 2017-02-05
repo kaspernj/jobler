@@ -2,17 +2,34 @@ class Jobler::BaseJobler
   attr_reader :args, :job
 
   def create_result!(args)
-    temp_file = args.fetch(:temp_file)
-    temp_file.close unless temp_file.closed?
+    if args[:temp_file]
+      temp_file = args.fetch(:temp_file)
+      temp_file.close unless temp_file.closed?
+      content = File.read(temp_file.path)
+    else
+      content = args.fetch(:content)
+    end
 
     job.results.create!(
       name: args.fetch(:name),
-      result: File.read(temp_file.path)
+      result: content
     )
   end
 
   def execute!
     raise NoMethodError, "You should define the 'execute!' method on #{self.class.name}"
+  end
+
+  def jobler_name
+    new_name = ""
+
+    parts = self.class.name.split("::")
+    parts.each do |part|
+      new_name << "/" unless new_name.empty?
+      new_name << part.underscore
+    end
+
+    new_name
   end
 
   def increment_progress!
@@ -36,6 +53,19 @@ class Jobler::BaseJobler
 
   def progress_total(new_total)
     @_progress_total = new_total.to_f
+  end
+
+  def render(template_path, locals = {})
+    if template_path.is_a?(Symbol)
+      template_path = "joblers/#{jobler_name}/#{template_path}"
+    end
+
+    controller = ::ApplicationJoblerController.new
+    controller.instance_variable_set(:@jobler, self)
+    controller.response = ActionDispatch::Response.new
+
+    render_result = controller.render(template_path, formats: Mime::EXTENSION_LOOKUP.keys, layout: false, locals: {jobler: self}.merge(locals))
+    render_result.join
   end
 
   def result

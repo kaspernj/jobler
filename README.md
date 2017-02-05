@@ -36,6 +36,7 @@ end
 
 Jobler is going to queue its jobs through the ActiveJob queue called `:jobler`, so make sure a worker is listening to that queue.
 
+
 ## Usage
 
 Write a new Jobler located in "app/joblers":
@@ -76,6 +77,31 @@ end
 ```
 
 This will show a wait page and them a complete page with a download link, once the job is completed.
+
+
+# Rendering views
+
+First add a special controller that your Jobler's can use:
+
+```ruby
+class ApplicationJoblerController < ApplicationController
+end
+```
+
+Then call render from within the execute method:
+```ruby
+class TestRenderJobler < Jobler::BaseJobler
+  def execute!
+    create_result!(
+      name: "render",
+      content: render(:show)
+    )
+  end
+end
+```
+
+This will render the view located at "app/joblers/test_render_jobler/show.*"
+
 
 ## License
 
