@@ -1,7 +1,9 @@
 class Jobler::Job < ActiveRecord::Base
   has_many :results, class_name: "Jobler::Result", dependent: :destroy
 
-  validates :jobler_type, :state, presence: true
+  validates :jobler_type, :slug, :state, presence: true
+
+  before_validation :set_slug
 
   def jobler
     user_jobler = jobler_type.constantize.new
@@ -12,5 +14,21 @@ class Jobler::Job < ActiveRecord::Base
 
   def completed?
     state == "completed"
+  end
+
+  def error?
+    state == "error"
+  end
+
+  def to_param
+    raise "No slug" unless slug?
+    slug
+  end
+
+private
+
+  def set_slug
+    require "securerandom"
+    self.slug ||= SecureRandom.hex
   end
 end

@@ -12,8 +12,13 @@ class Jobler::JobRunner < ActiveJob::Base
 
       @job.update_attributes!(ended_at: Time.zone.now, progress: 1.0, state: "completed")
     rescue Exception => e # rubocop:disable Lint/RescueException
-      @job.update_attributes!(ended_at: Time.zone.now, state: "error")
-      raise e
+      @job.update_attributes!(
+        ended_at: Time.zone.now,
+        error_message: e.message,
+        error_type: e.class.name,
+        error_backtrace: e.backtrace.join("\n"),
+        state: "error"
+      )
     end
   end
 
