@@ -1,6 +1,6 @@
 class Jobler::DownloadsController < Jobler::ApplicationController
   def show
-    @job = Jobler::Job.find(params[:id])
+    @job = Jobler::Job.find_by!(slug: params[:id])
     @result = @job.jobler.result
 
     if @result.is_a?(Jobler::FileDownload)

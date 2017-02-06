@@ -1,6 +1,6 @@
 class Jobler::JobsController < Jobler::ApplicationController
   def show
-    @job = Jobler::Job.find(params[:id])
+    @job = Jobler::Job.find_by!(slug: params[:id])
     @result = @job.jobler.result if @job.completed?
 
     respond_to do |format|
@@ -8,7 +8,8 @@ class Jobler::JobsController < Jobler::ApplicationController
         render json: {
           job: {
             progress: @job.progress,
-            state: @job.state
+            state: @job.state,
+            state_humanized: @job.state.humanize
           }
         }
       end

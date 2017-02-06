@@ -11,19 +11,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170203161045) do
+ActiveRecord::Schema.define(version: 20170206104246) do
 
   create_table "jobler_jobs", force: :cascade do |t|
-    t.string   "jobler_type",                 null: false
-    t.string   "state",       default: "new", null: false
-    t.float    "progress",    default: 0.0,   null: false
+    t.string   "jobler_type",                     null: false
+    t.string   "state",           default: "new", null: false
+    t.float    "progress",        default: 0.0,   null: false
     t.text     "parameters"
     t.datetime "started_at"
     t.datetime "ended_at"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.string   "locale"
+    t.text     "error_message"
+    t.string   "error_type"
+    t.text     "error_backtrace"
+    t.string   "slug"
   end
+
+  add_index "jobler_jobs", ["slug"], name: "index_jobler_jobs_on_slug", unique: true
 
   create_table "jobler_results", force: :cascade do |t|
     t.integer  "job_id",     null: false
