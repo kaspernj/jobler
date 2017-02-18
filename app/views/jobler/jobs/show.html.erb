@@ -5,6 +5,8 @@
 <% if @job.completed? %>
   <% if @result.is_a?(Jobler::FileDownload) %>
     <%= link_to "Download", download_path(@job) %>
+  <% elsif @result.is_a?(Jobler::PageRender) %>
+    <%= @result.body.html_safe %>
   <% end %>
 <% elsif @job.error? %>
   <div class="well">

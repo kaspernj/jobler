@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170206104246) do
+ActiveRecord::Schema.define(version: 20170217082955) do
 
   create_table "jobler_jobs", force: :cascade do |t|
     t.string   "jobler_type",                     null: false
@@ -27,6 +27,9 @@ ActiveRecord::Schema.define(version: 20170206104246) do
     t.string   "error_type"
     t.text     "error_backtrace"
     t.string   "slug"
+    t.string   "host"
+    t.string   "protocol"
+    t.integer  "port"
   end
 
   add_index "jobler_jobs", ["slug"], name: "index_jobler_jobs_on_slug", unique: true

@@ -60,8 +60,14 @@ class Jobler::BaseJobler
       template_path = "joblers/#{jobler_name}/#{template_path}"
     end
 
+    request = ActionDispatch::Request.new(
+      "HTTP_HOST" => "#{job.host}:#{job.port}",
+      "HTTP_X_FORWARDED_PROTO" => job.protocol
+    )
+
     controller = ::ApplicationJoblerController.new
     controller.instance_variable_set(:@jobler, self)
+    controller.request = request
     controller.response = ActionDispatch::Response.new
 
     render_result = controller.render(template_path, formats: Mime::EXTENSION_LOOKUP.keys, layout: false, locals: {jobler: self}.merge(locals))
