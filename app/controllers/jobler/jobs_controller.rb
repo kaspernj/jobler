@@ -13,7 +13,12 @@ class Jobler::JobsController < Jobler::ApplicationController
           }
         }
       end
-      format.html
+
+      if @result.is_a?(Jobler::RedirectTo)
+        format.html { redirect_to @result.url }
+      else
+        format.html
+      end
     end
   end
 end

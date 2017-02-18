@@ -97,11 +97,37 @@ class TestRenderJobler < Jobler::BaseJobler
       content: render(:show)
     )
   end
+
+  def result
+    Jobler::RedirectTo.new(url: "/jobler_jobs/jobs/#{job.to_param}")
+  end
 end
 ```
 
 This will render the view located at "app/joblers/test_render_jobler/show.*"
 
+You should then create a controller something like this:
+
+```ruby
+class JoblerJobsController < ApplicationController
+  def show
+    @job = Jobler::Job.find_by!(slug: param[:id])
+    @result = @job.results.find_by!(name: "render")
+  end
+end
+```
+
+And a view in "app/views/jobler_jobs/show.html.erb":
+```erb
+<%= @result.result.force_encoding("utf-8").html_safe
+```
+
+You should also add a route like this:
+```ruby
+Rails.application.routes.draw do
+  resources :jobler_jobs, only: :show
+end
+```
 
 ## License
 

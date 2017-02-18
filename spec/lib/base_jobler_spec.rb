@@ -1,7 +1,8 @@
 require "rails_helper"
 
 describe Jobler::BaseJobler do
-  let(:test_render_jobler) { TestRenderJobler.new }
+  let(:job) { create :job, jobler_type: "TestRenderJobler" }
+  let(:test_render_jobler) { job.jobler }
 
   describe "#render" do
     it "renders templates" do

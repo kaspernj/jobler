@@ -9,17 +9,28 @@ class Jobler::JobScheduler
   end
 
   def initialize(args)
+    @controller = args[:controller]
     @jobler_type = args.fetch(:jobler_type)
     @job_args = args[:job_args]
     @locale = args[:locale]
   end
 
   def create_job
-    @job = Jobler::Job.create!(
+    @job = Jobler::Job.new(
       jobler_type: @jobler_type,
       locale: @locale.presence || I18n.locale,
       parameters: YAML.dump(@job_args)
     )
+
+    if @controller
+      @job.assign_attributes(
+        host: @controller.request.host,
+        port: @controller.request.port,
+        protocol: @controller.request.protocol
+      )
+    end
+
+    @job.save!
   end
 
   def perform_job_later
