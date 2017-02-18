@@ -28,6 +28,9 @@ Metrics/ClassLength:
 Rails/FindEach:
   Enabled: false
 
+Rails/HttpPositionalArguments:
+  Enabled: false
+
 Style/AccessModifierIndentation:
   EnforcedStyle: outdent
 
