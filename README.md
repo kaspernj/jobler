@@ -64,7 +64,7 @@ end
 
 You can do something like this in your controller:
 ```ruby
-class MyController < ApplicationController
+class MyController < Jobler::BaseController
   def some_action
     scheduler = Jobler::JobScheduler.create! jobler_type: "MyJobler", job_args: {
       current_user_id: current_user.id,
