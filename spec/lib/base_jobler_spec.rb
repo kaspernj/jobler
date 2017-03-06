@@ -8,7 +8,7 @@ describe Jobler::BaseJobler do
     it "renders templates" do
       content = test_render_jobler.render(:show)
 
-      expect(content).to eq "Test\n"
+      expect(content).to include "https://jobler.test.host:1234/jobler_jobs/#{job.to_param}"
     end
   end
 end
