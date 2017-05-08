@@ -1,6 +1,7 @@
 module Jobler
   path = "#{File.dirname(__FILE__)}/jobler"
 
+  autoload :BaseController, "#{path}/base_controller"
   autoload :BaseJobler, "#{path}/base_jobler"
   autoload :FileDownload, "#{path}/file_download"
   autoload :JobScheduler, "#{path}/job_scheduler"
