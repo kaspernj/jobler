@@ -71,7 +71,14 @@ class Jobler::BaseJobler
     controller.response = ActionDispatch::Response.new
 
     render_result = controller.render(template_path, formats: Mime::EXTENSION_LOOKUP.keys, layout: false, locals: {jobler: self}.merge(locals))
-    render_result.join
+
+    if render_result.is_a?(String)
+      # Rails 5 behaviour
+      render_result
+    else
+      # Rails 4 behaviour
+      render_result.join
+    end
   end
 
   def result
