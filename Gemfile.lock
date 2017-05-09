@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    jobler (0.0.6)
+    jobler (0.0.7)
       rails (>= 4)
 
 GEM
