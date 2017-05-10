@@ -32,9 +32,9 @@ class Jobler::BaseJobler
     new_name
   end
 
-  def increment_progress!
+  def increment_progress!(value: 1.0)
     @_progress_count ||= 0.0
-    @_progress_count += 1.0
+    @_progress_count += value.to_f
 
     new_progress = @_progress_count / @_progress_total
 
