@@ -119,7 +119,7 @@ end
 
 And a view in "app/views/jobler_jobs/show.html.erb":
 ```erb
-<%= @result.result.force_encoding("utf-8").html_safe
+<%= @result.result.force_encoding("utf-8").html_safe %>
 ```
 
 You should also add a route like this:
