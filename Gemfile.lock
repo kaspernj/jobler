@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    jobler (0.0.8)
+    jobler (0.0.9)
       rails (>= 4)
 
 GEM
@@ -72,7 +72,7 @@ GEM
     json (1.8.6)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
-    mail (2.6.5)
+    mail (2.6.6)
       mime-types (>= 1.16, < 4)
     mime-types (3.1)
       mime-types-data (~> 3.2015)
