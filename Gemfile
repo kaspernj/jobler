@@ -9,7 +9,6 @@ group :development, :test do
   gem "best_practice_project", "0.0.10", require: false
   gem "capybara", "2.12.0"
   gem "factory_girl_rails", "4.8.0"
-  gem "jquery-rails", "4.2.2"
   gem "rspec-rails", "3.5.2"
   gem "rubocop", "0.47.1", require: false
   gem "sqlite3", "1.3.13"
