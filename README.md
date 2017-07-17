@@ -34,7 +34,11 @@ class ApplicationJobler < Jobler::BaseJobler
 end
 ```
 
-Jobler is going to queue its jobs through the ActiveJob queue called `:jobler`, so make sure a worker is listening to that queue.
+Jobler is going to queue its jobs through the ActiveJob queue called `:jobler`, so make sure a worker is listening to that queue. This is done like this in Sidekiq:
+
+```bash
+bundle exec sidekiq --queue default --queue jobler --queue mailers
+```
 
 
 ## Usage
