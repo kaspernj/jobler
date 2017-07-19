@@ -133,6 +133,27 @@ Rails.application.routes.draw do
 end
 ```
 
+# Progress bar
+
+In order to utilize the progress bar and return some feedback on the progress to the user, you can implement a couple of calls to do that:
+
+```ruby
+class MyJobler < ApplicationJobler
+  def execute!
+    progress_total collection.size
+    
+    collection.find_each do |model|
+      increment_progress!
+    end
+  end
+end
+```
+
+You can also call it from a view, if you a doing a render like this:
+```erb
+<% jobler.increment_progress! %>
+```
+
 ## License
 
 This project rocks and uses MIT-LICENSE.
