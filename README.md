@@ -154,6 +154,11 @@ You can also call it from a view, if you a doing a render like this:
 <% jobler.increment_progress! %>
 ```
 
+You can also specify a custom value if it isn't 1:
+```erb
+<% jobler.increment_progress!(value: 5.0) %>
+```
+
 ## License
 
 This project rocks and uses MIT-LICENSE.
