@@ -13,10 +13,10 @@ describe Jobler::JobRunner do
 
       job.reload
 
-      expect(job.state).to eq "completed"
       expect(job.error_message).to eq nil
       expect(job.error_type).to eq nil
       expect(job.error_backtrace).to eq nil
+      expect(job.state).to eq "completed"
     end
 
     it "logs errors on the job" do

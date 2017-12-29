@@ -1,4 +1,4 @@
-class Jobler::JobRunner < ActiveJob::Base
+class Jobler::JobRunner < ActiveJob::Base # rubocop:disable Rails/ApplicationJob
   queue_as :jobler
 
   def perform(job_id)

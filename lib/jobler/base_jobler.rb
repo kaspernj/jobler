@@ -1,6 +1,11 @@
 class Jobler::BaseJobler
   attr_reader :args, :job
 
+  def initialize(args = {})
+    @args = args[:args]
+    @job = args[:job]
+  end
+
   def create_result!(args)
     if args[:temp_file]
       temp_file = args.fetch(:temp_file)
@@ -56,9 +61,7 @@ class Jobler::BaseJobler
   end
 
   def render(template_path, locals = {})
-    if template_path.is_a?(Symbol)
-      template_path = "joblers/#{jobler_name}/#{template_path}"
-    end
+    template_path = "joblers/#{jobler_name}/#{template_path}" if template_path.is_a?(Symbol)
 
     request = ActionDispatch::Request.new(
       "HTTP_HOST" => "#{job.host}:#{job.port}",
@@ -90,7 +93,7 @@ class Jobler::BaseJobler
 
     raise "No result by that name: #{args.fetch(:name)}" unless job_result
 
-    temp_file = Tempfile.new
+    temp_file = ::Tempfile.new("jobler_tempfile")
     temp_file.binmode
     temp_file.write(job_result.result)
     temp_file.close

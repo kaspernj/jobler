@@ -6,7 +6,7 @@ describe Jobler::JobsController do
   routes { Jobler::Engine.routes }
 
   it "redirects" do
-    get :show, id: redirect_job.to_param
+    get :show, id: redirect_job.to_param # rubocop:disable Rails/HttpPositionalArguments
 
     expect(response).to redirect_to "/jobler_jobs/#{redirect_job.to_param}"
   end

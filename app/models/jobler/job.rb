@@ -1,15 +1,12 @@
-class Jobler::Job < ActiveRecord::Base
-  has_many :results, class_name: "Jobler::Result", dependent: :destroy
+class Jobler::Job < ActiveRecord::Base # rubocop:disable Rails/ApplicationRecord
+  has_many :results, class_name: "Jobler::Result", dependent: :destroy, inverse_of: :job
 
   validates :jobler_type, :slug, :state, presence: true
 
   before_validation :set_slug
 
   def jobler
-    user_jobler = jobler_type.constantize.new
-    user_jobler.instance_variable_set(:@args, YAML.load(parameters)) # rubocop:disable Security/YAMLLoad
-    user_jobler.instance_variable_set(:@job, self)
-    user_jobler
+    @_jobler ||= jobler_type.constantize.new(args: YAML.load(parameters), job: self) # rubocop:disable Security/YAMLLoad
   end
 
   def completed?

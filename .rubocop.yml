@@ -5,9 +5,26 @@ AllCops:
     - db/schema.rb
     - spec/dummy/db/schema.rb
 
-# https://github.com/AtomLinter/linter-rubocop/issues/2
-Style/FileName:
+Layout/AccessModifierIndentation:
+  EnforcedStyle: outdent
+
+Layout/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+Layout/EmptyLines:
   Enabled: false
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Layout/MultilineOperationIndentation:
+  EnforcedStyle: indented
+
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+
+Lint/EndAlignment:
+  EnforcedStyleAlignWith: variable
 
 Metrics/CyclomaticComplexity:
   Max: 10
@@ -28,15 +45,6 @@ Metrics/ClassLength:
 Rails/FindEach:
   Enabled: false
 
-Rails/HttpPositionalArguments:
-  Enabled: false
-
-Style/AccessModifierIndentation:
-  EnforcedStyle: outdent
-
-Style/AlignParameters:
-  EnforcedStyle: with_fixed_indentation
-
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
 
@@ -46,18 +54,18 @@ Style/ConditionalAssignment:
 Style/Documentation:
   Enabled: false
 
-Style/EmptyLines:
+Style/FrozenStringLiteralComment:
   Enabled: false
 
 # Will report offences for many places that are much more readable without using a guard clause
 Style/GuardClause:
   Enabled: false
 
-Style/MultilineMethodCallIndentation:
-  EnforcedStyle: indented
+Style/LambdaCall:
+  Enabled: false
 
-Style/MultilineOperationIndentation:
-  EnforcedStyle: indented
+Style/RegexpLiteral:
+  Enabled: false
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
@@ -71,16 +79,9 @@ Style/NilComparison:
 Style/SignalException:
   EnforcedStyle: only_raise
 
-Style/MultilineOperationIndentation:
-  EnforcedStyle: indented
-
-Style/SpaceInsideHashLiteralBraces:
-  EnforcedStyle: no_space
+Style/SymbolArray:
+  Enabled: false
 
 Style/TrivialAccessors:
   ExactNameMatch: true
   Enabled: true
-
-# Disabled on purpose: https://github.com/bbatsov/rubocop/issues/1758
-Style/ClosingParenthesisIndentation:
-  Enabled: false

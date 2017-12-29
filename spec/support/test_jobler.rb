@@ -1,7 +1,7 @@
 class TestJobler < Jobler::BaseJobler
   # This method will be executed in the background
   def execute!
-    my_temp_file = Tempfile.new
+    my_temp_file = Tempfile.new("jobler_test")
 
     create_result!(name: "my-file", temp_file: my_temp_file)
   end
