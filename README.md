@@ -115,7 +115,7 @@ You should then create a controller something like this:
 ```ruby
 class JoblerJobsController < ApplicationController
   def show
-    @job = Jobler::Job.find_by!(slug: param[:id])
+    @job = Jobler::Job.find_by!(slug: params[:id])
     @result = @job.results.find_by!(name: "render")
   end
 end
