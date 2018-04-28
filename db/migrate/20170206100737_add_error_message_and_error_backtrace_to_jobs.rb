@@ -1,4 +1,4 @@
-class AddErrorMessageAndErrorBacktraceToJobs < ActiveRecord::Migration
+class AddErrorMessageAndErrorBacktraceToJobs < ActiveRecord::Migration[5.1]
   def change
     add_column :jobler_jobs, :error_message, :text
     add_column :jobler_jobs, :error_type, :string
