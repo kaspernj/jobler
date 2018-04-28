@@ -1,4 +1,4 @@
-class CreateJobs < ActiveRecord::Migration
+class CreateJobs < ActiveRecord::Migration[5.1]
   def change
     create_table :jobler_jobs do |t|
       t.string :jobler_type, null: false
