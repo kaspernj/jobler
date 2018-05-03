@@ -1,4 +1,5 @@
 class Jobler::BaseJobler
+  attr_accessor :controller, :format
   attr_reader :args, :job
 
   def initialize(args = {})
