@@ -14,29 +14,28 @@ class Jobler::Models::DestroyerJobler < Jobler::BaseJobler
 private
 
   def calculate_numbers
-    puts "Calculate numbers"
+    Rails.logger.debug "Calculate numbers"
 
     @total = 0
     relationships.each do |relationship|
-      puts "Calculate size for #{relationship}"
+      Rails.logger.debug "Calculate size for #{relationship}"
       @total += model.__send__(relationship).size
     end
 
     progress_total @total
 
-    puts "Done calculating numbers: #{@total}"
+    Rails.logger.debug "Done calculating numbers: #{@total}"
   end
 
   def destroy_relationships
-    puts "Destroying relationships"
+    Rails.logger.debug "Destroying relationships"
     relationships.each do |relationship|
-      puts "Destroying #{relationship}"
+      Rails.logger.debug "Destroying #{relationship}"
       model.__send__(relationship).find_each do |sub_model|
-        print "."
+        Rails.logger.debug "Destroying #{sub_model.id}"
         sub_model.destroy!
         increment_progress!
       end
-      puts
     end
   end
 
@@ -52,7 +51,7 @@ private
     @_relationships ||= proc do
       result = []
 
-      model_class.reflections.each do |name, reflection|
+      model_class.reflections.each_value do |reflection|
         next unless reflection.is_a?(ActiveRecord::Reflection::HasManyReflection)
         next unless reflection.options[:dependent] == :destroy
 
