@@ -8,7 +8,7 @@ describe Jobler::Models::DestroyerJobler do
     expect do
       expect do
         perform_enqueued_jobs do
-          scheduler = Jobler::JobScheduler.create!(
+          Jobler::JobScheduler.create!(
             jobler_type: "Jobler::Models::DestroyerJobler",
             job_args: {model: "Jobler::Job", model_id: job.id, redirect_to: "/"}
           )
