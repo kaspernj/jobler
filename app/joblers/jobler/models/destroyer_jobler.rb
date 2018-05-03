@@ -4,6 +4,7 @@ class Jobler::Models::DestroyerJobler < Jobler::BaseJobler
 
     model_class.transaction do
       destroy_relationships
+      model.destroy!
     end
   end
 
@@ -44,7 +45,7 @@ private
   end
 
   def model
-    @_model ||= Project.find(args.fetch(:model_id))
+    @_model ||= model_class.find(args.fetch(:model_id))
   end
 
   def relationships
