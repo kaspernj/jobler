@@ -1,7 +1,6 @@
 class Jobler::JobsController < Jobler::ApplicationController
   def show
     @job = Jobler::Job.find_by!(slug: params[:id])
-    @result = @job.jobler.result if @job.completed?
 
     respond_to do |format|
       format.json do
@@ -14,8 +13,12 @@ class Jobler::JobsController < Jobler::ApplicationController
         }
       end
 
-      if @result.is_a?(Jobler::RedirectTo)
-        format.html { redirect_to @result.url }
+      if @job.completed?
+        @job.jobler.controller = self
+        @job.jobler.format = format
+
+        @result = @job.jobler.result
+        format.html { redirect_to @result.url } if @result.is_a?(Jobler::RedirectTo)
       else
         format.html
       end
