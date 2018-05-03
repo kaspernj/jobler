@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    jobler (0.0.9)
+    jobler (0.0.10)
       rails (>= 4)
 
 GEM
@@ -83,7 +83,7 @@ GEM
     mini_mime (1.0.0)
     mini_portile2 (2.3.0)
     minitest (5.10.3)
-    nio4r (2.2.0)
+    nio4r (2.3.1)
     nokogiri (1.8.1)
       mini_portile2 (~> 2.3.0)
     parallel (1.12.1)
