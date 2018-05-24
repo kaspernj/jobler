@@ -18,7 +18,12 @@ class Jobler::JobsController < Jobler::ApplicationController
         @job.jobler.format = format
 
         @result = @job.jobler.result
-        format.html { redirect_to @result.url } if @result.is_a?(Jobler::RedirectTo)
+
+        if @result.is_a?(Jobler::RedirectTo)
+          format.html { redirect_to @result.url }
+        else
+          format.html
+        end
       else
         format.html
       end
