@@ -162,3 +162,4 @@ You can also specify a custom value if it isn't 1:
 ## License
 
 This project rocks and uses MIT-LICENSE.
+
