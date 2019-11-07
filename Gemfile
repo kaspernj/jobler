@@ -8,7 +8,7 @@ gemspec
 group :development, :test do
   gem "best_practice_project", "0.0.11", require: false
   gem "capybara", "2.16.1"
-  gem "factory_girl_rails", "4.8.0"
+  gem "factory_girl_rails", "4.9.0"
   gem "pry-rails", "0.3.9"
   gem "rspec-rails", "3.9.0"
   gem "rubocop", "0.76.0", require: false
