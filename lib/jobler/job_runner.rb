@@ -3,16 +3,16 @@ class Jobler::JobRunner < ActiveJob::Base # rubocop:disable Rails/ApplicationJob
 
   def perform(job_id)
     @job = Jobler::Job.find(job_id)
-    @job.update_attributes!(started_at: Time.zone.now, state: "started")
+    @job.update!(started_at: Time.zone.now, state: "started")
 
     begin
       with_locale do
         @job.jobler.execute!
       end
 
-      @job.update_attributes!(ended_at: Time.zone.now, progress: 1.0, state: "completed")
+      @job.update!(ended_at: Time.zone.now, progress: 1.0, state: "completed")
     rescue Exception => e # rubocop:disable Lint/RescueException
-      @job.update_attributes!(
+      @job.update!(
         ended_at: Time.zone.now,
         error_message: e.message,
         error_type: e.class.name,

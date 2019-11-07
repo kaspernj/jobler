@@ -10,7 +10,7 @@ describe "jobs" do
       visit job_path(job)
 
       expect(page).to have_http_status :success
-      expect(current_path).to eq job_path(job)
+      expect(page).to have_current_path job_path(job), ignore_query: true
     end
 
     it "redirects and uses the apps render mechanism" do
@@ -19,7 +19,7 @@ describe "jobs" do
       visit job_path(redirect_job)
 
       expect(page).to have_http_status :success
-      expect(current_path).to eq "/jobler_jobs/#{redirect_job.to_param}"
+      expect(page).to have_current_path "/jobler_jobs/#{redirect_job.to_param}", ignore_query: true
     end
   end
 end

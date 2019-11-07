@@ -19,6 +19,7 @@ class Jobler::Job < ActiveRecord::Base # rubocop:disable Rails/ApplicationRecord
 
   def to_param
     raise "No slug" unless slug?
+
     slug
   end
 

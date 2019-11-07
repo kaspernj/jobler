@@ -6,13 +6,16 @@ source "https://rubygems.org"
 gemspec
 
 group :development, :test do
-  gem "best_practice_project", "0.0.11", require: false
-  gem "capybara", "2.16.1"
-  gem "factory_girl_rails", "4.9.0"
-  gem "pry-rails", "0.3.9"
-  gem "rspec-rails", "3.9.0"
-  gem "rubocop", "0.76.0", require: false
-  gem "sqlite3", "1.3.13"
+  gem "best_practice_project", require: false
+  gem "capybara"
+  gem "factory_bot_rails"
+  gem "pry-rails"
+  gem "rspec-rails"
+  gem "rubocop", require: false
+  gem "rubocop-performance", require: false
+  gem "rubocop-rails", require: false
+  gem "rubocop-rspec", require: false
+  gem "sqlite3"
 end
 
 # Declare any dependencies that are still in development here instead of in
