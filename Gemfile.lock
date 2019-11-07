@@ -50,7 +50,7 @@ GEM
     ast (2.3.0)
     auto_autoloader (0.0.5)
       string-cases
-    best_practice_project (0.0.10)
+    best_practice_project (0.0.11)
       auto_autoloader (>= 0.0.5)
     builder (3.2.3)
     capybara (2.16.1)
@@ -173,7 +173,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  best_practice_project (= 0.0.10)
+  best_practice_project (= 0.0.11)
   capybara (= 2.16.1)
   factory_girl_rails (= 4.8.0)
   jobler!
