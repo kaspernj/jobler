@@ -6,7 +6,7 @@ class Jobler::Job < ActiveRecord::Base # rubocop:disable Rails/ApplicationRecord
   before_validation :set_slug
 
   def jobler
-    @_jobler ||= jobler_type.constantize.new(args: YAML.load(parameters), job: self) # rubocop:disable Security/YAMLLoad
+    @jobler ||= jobler_type.constantize.new(args: YAML.load(parameters), job: self) # rubocop:disable Security/YAMLLoad
   end
 
   def completed?

@@ -45,11 +45,11 @@ private
   end
 
   def model
-    @_model ||= model_class.find(args.fetch(:model_id))
+    @model ||= model_class.find(args.fetch(:model_id))
   end
 
   def relationships
-    @_relationships ||= proc do
+    @relationships ||= begin
       result = []
 
       model_class.reflections.each_value do |reflection|
@@ -60,6 +60,6 @@ private
       end
 
       result
-    end.call
+    end
   end
 end
