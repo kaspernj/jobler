@@ -11,7 +11,7 @@ describe "downloads" do
       visit download_path(job)
 
       expect(page).to have_http_status :success
-      expect(current_path).to eq download_path(job)
+      expect(page).to have_current_path download_path(job), ignore_query: true
     end
   end
 end
