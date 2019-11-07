@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :job, class: "Jobler::Job" do
     host { "jobler.test.host" }
     jobler_type { "TestJobler" }
