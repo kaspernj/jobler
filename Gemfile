@@ -10,7 +10,7 @@ group :development, :test do
   gem "capybara", "2.16.1"
   gem "factory_girl_rails", "4.8.0"
   gem "pry-rails", "0.3.9"
-  gem "rspec-rails", "3.5.2"
+  gem "rspec-rails", "3.9.0"
   gem "rubocop", "0.52.1", require: false
   gem "sqlite3", "1.3.13"
 end
