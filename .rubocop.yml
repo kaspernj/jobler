@@ -15,10 +15,7 @@ require:
 Layout/AccessModifierIndentation:
   EnforcedStyle: outdent
 
-Layout/AlignParameters:
-  EnforcedStyle: with_fixed_indentation
-
-Layout/AlignArguments:
+Layout/ArgumentAlignment:
   EnforcedStyle: with_fixed_indentation
 
 Layout/CaseIndentation:
@@ -41,6 +38,9 @@ Layout/MultilineOperationIndentation:
 
 Layout/RescueEnsureAlignment:
   Enabled: false
+
+Layout/ParameterAlignment:
+  EnforcedStyle: with_fixed_indentation
 
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
