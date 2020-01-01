@@ -11,7 +11,7 @@ require "capybara/rspec"
 
 # Capybara.app = Jobler::Engine
 
-Dir["#{File.dirname(__FILE__)}/factories/**/*.rb"].each { |f| require f }
+Dir["#{File.dirname(__FILE__)}/factories/**/*.rb"].sort.each { |f| require f }
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -26,7 +26,7 @@ Dir["#{File.dirname(__FILE__)}/factories/**/*.rb"].each { |f| require f }
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
+Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].sort.each { |f| require f }
 
 # Checks for pending migration and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
