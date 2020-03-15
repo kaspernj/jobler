@@ -18,7 +18,7 @@ class Jobler::BaseJobler
         result.result = content
       else
         result.file.attach(
-          filename: name,
+          filename: File.basename(temp_file.path),
           io: File.open(temp_file.path)
         )
       end
