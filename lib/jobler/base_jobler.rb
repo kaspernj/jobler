@@ -7,19 +7,27 @@ class Jobler::BaseJobler
     @job = args[:job]
   end
 
-  def create_result!(args)
-    if args[:temp_file]
-      temp_file = args.fetch(:temp_file)
-      temp_file.close unless temp_file.closed?
-      content = File.read(temp_file.path)
+  def create_result!(name:, temp_file:)
+    result = job.results.new(name: name)
+
+    if temp_file
+      if save_in_database
+        temp_file = temp_file
+        temp_file.close unless temp_file.closed?
+        content = File.read(temp_file.path)
+        result.result = content
+      else
+        result.file.attach(
+          filename: name,
+          io: File.open(temp_file.path)
+        )
+      end
     else
       content = args.fetch(:content)
     end
 
-    job.results.create!(
-      name: args.fetch(:name),
-      result: content
-    )
+    result.save!
+    result
   end
 
   def execute!

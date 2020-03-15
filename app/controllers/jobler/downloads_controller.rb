@@ -4,7 +4,11 @@ class Jobler::DownloadsController < Jobler::ApplicationController
     @result = @job.jobler.result
 
     if @result.is_a?(Jobler::FileDownload)
-      send_file @result.temp_file.path, disposition: "attachment", filename: @result.file_name
+      if @result.url.present?
+        redirect_to @result.url
+      else
+        send_file @result.temp_file.path, disposition: "attachment", filename: @result.file_name
+      end
     else
       flash[:error] = "The result wasn't a file download"
       redirect_to :back

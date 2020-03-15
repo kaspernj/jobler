@@ -1,8 +1,9 @@
 class Jobler::FileDownload
-  attr_reader :file_name, :temp_file
+  attr_reader :file_name, :temp_file, :url
 
-  def initialize(args)
-    @file_name = args.fetch(:file_name)
-    @temp_file = args.fetch(:temp_file)
+  def initialize(file_name:, temp_file: nil, url:)
+    @file_name = file_name
+    @temp_file = temp_file
+    @url = url
   end
 end
