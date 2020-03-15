@@ -2,24 +2,32 @@ class Jobler::BaseJobler
   attr_accessor :controller, :format
   attr_reader :args, :job
 
-  def initialize(args = {})
-    @args = args[:args]
-    @job = args[:job]
+  def initialize(args:, job:)
+    @args = args
+    @job = job
   end
 
-  def create_result!(args)
-    if args[:temp_file]
-      temp_file = args.fetch(:temp_file)
-      temp_file.close unless temp_file.closed?
-      content = File.read(temp_file.path)
+  def create_result!(content: nil, name:, temp_file:, save_in_database: false)
+    result = job.results.new(name: name)
+
+    if temp_file
+      if save_in_database
+        temp_file = temp_file
+        temp_file.close unless temp_file.closed?
+        content = File.read(temp_file.path)
+        result.result = content
+      else
+        result.file.attach(
+          filename: name,
+          io: File.open(temp_file.path)
+        )
+      end
     else
-      content = args.fetch(:content)
+      result.result = content
     end
 
-    job.results.create!(
-      name: args.fetch(:name),
-      result: content
-    )
+    result.save!
+    result
   end
 
   def execute!
@@ -89,15 +97,21 @@ class Jobler::BaseJobler
     raise NoMethodError, "You should define the 'result' method on #{self.class.name}"
   end
 
-  def temp_file_for_result(args)
-    job_result = job.results.where(name: args.fetch(:name)).first
-
-    raise "No result by that name: #{args.fetch(:name)}" unless job_result
+  def temp_file_for_result(name:)
+    job_result = job.results.where(name: name).first
+    raise "No result by that name: #{name}" unless job_result
 
     temp_file = ::Tempfile.new("jobler_tempfile")
     temp_file.binmode
     temp_file.write(job_result.result)
     temp_file.close
     temp_file
+  end
+
+  def url_for_result(name:)
+    job_result = job.results.where(name: name).first
+    raise "No result by that name: #{name}" unless job_result
+
+    Rails.application.routes.url_helpers.rails_blob_path(job_result.file.attachment, only_path: true)
   end
 end

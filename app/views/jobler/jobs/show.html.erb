@@ -4,7 +4,11 @@
 
 <% if @job.completed? %>
   <% if @result.is_a?(Jobler::FileDownload) %>
-    <%= link_to "Download", download_path(@job) %>
+    <% if @result.url.present? %>
+      <%= link_to "Download", @result.url %>
+    <% else %>
+      <%= link_to "Download", download_path(@job) %>
+    <% end %>
   <% elsif @result.is_a?(Jobler::PageRender) %>
     <%= @result.body.html_safe %>
   <% end %>

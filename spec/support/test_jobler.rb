@@ -8,9 +8,17 @@ class TestJobler < Jobler::BaseJobler
 
   # This method will be called from the web when the execute is completed and successful
   def result
-    Jobler::FileDownload.new(
-      file_name: "some-file.zip",
-      temp_file: temp_file_for_result(name: "my-file")
-    )
+    result = job.results.find_by!(name: "my-file")
+
+    if result.file.attached?
+      Jobler::FileDownload.new(
+        url: url_for_result(name: "my-file")
+      )
+    else
+      Jobler::FileDownload.new(
+        file_name: "some-file.zip",
+        temp_file: temp_file_for_result(name: "my-file")
+      )
+    end
   end
 end
