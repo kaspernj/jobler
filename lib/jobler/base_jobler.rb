@@ -7,23 +7,27 @@ class Jobler::BaseJobler
     @job = job
   end
 
-  def create_result!(content: nil, name:, temp_file:, save_in_database: false)
+  def create_result!(content: nil, name:, temp_file: nil, save_in_database: false)
     result = job.results.new(name: name)
 
-    if temp_file
-      if save_in_database
-        temp_file = temp_file
-        temp_file.close unless temp_file.closed?
-        content = File.read(temp_file.path)
-        result.result = content
-      else
-        result.file.attach(
-          filename: File.basename(temp_file.path),
-          io: File.open(temp_file.path)
-        )
-      end
-    else
+    if content && !temp_file
+      temp_file = Tempfile.new(name)
+      temp_file.write(content)
+      temp_file.close
+    end
+
+    raise "No tempfile could be found" unless temp_file
+
+    if save_in_database
+      temp_file = temp_file
+      temp_file.close unless temp_file.closed?
+      content = File.read(temp_file.path)
       result.result = content
+    else
+      result.file.attach(
+        filename: File.basename(temp_file.path),
+        io: File.open(temp_file.path)
+      )
     end
 
     result.save!
