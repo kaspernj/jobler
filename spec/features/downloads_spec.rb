@@ -6,7 +6,7 @@ puts "Path: #{path}"
 describe "downloads" do
   let(:job) { create :job }
   let(:result) { create :result, job: job, name: "my-file" }
-  let(:result_with_file) { create :result, file: fixture_file_upload(path), job: job, name: "my-file", result: nil }
+  let(:result_with_file) { create :result, file: fixture_file_upload(path, "text/csv"), job: job, name: "my-file", result: nil }
 
   describe "#show" do
     it "renders the page" do
@@ -24,7 +24,7 @@ describe "downloads" do
       visit download_path(job)
 
       expect(page).to have_http_status :success
-      expect(page).to have_current_path download_path(job), ignore_query: true
+      expect(page.current_path).to start_with "/rails/active_storage/disk/"
     end
   end
 end
