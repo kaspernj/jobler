@@ -24,7 +24,7 @@ describe "downloads" do
       visit download_path(job)
 
       expect(page).to have_http_status :success
-      expect(page.current_path).to start_with "/rails/active_storage/disk/"
+      expect(page.current_path).to start_with "/rails/active_storage/disk/" # rubocop:disable Capybara/CurrentPathExpectation
     end
   end
 end

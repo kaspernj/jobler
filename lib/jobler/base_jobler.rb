@@ -7,7 +7,7 @@ class Jobler::BaseJobler
     @job = job
   end
 
-  def create_result!(name:, temp_file:, save_in_database: false)
+  def create_result!(content: nil, name:, temp_file:, save_in_database: false)
     result = job.results.new(name: name)
 
     if temp_file
@@ -23,7 +23,7 @@ class Jobler::BaseJobler
         )
       end
     else
-      content = args.fetch(:content)
+      result.result = content
     end
 
     result.save!
