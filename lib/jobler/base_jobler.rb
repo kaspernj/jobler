@@ -7,7 +7,7 @@ class Jobler::BaseJobler
     @job = args[:job]
   end
 
-  def create_result!(name:, temp_file:)
+  def create_result!(name:, temp_file:, save_in_database: false)
     result = job.results.new(name: name)
 
     if temp_file
