@@ -1,4 +1,12 @@
 class TestJobler < Jobler::BaseJobler
+  before_jobling do
+    job.update!(slug: "before-called")
+  end
+
+  after_jobling do
+    job.update!(protocol: "after-called")
+  end
+
   # This method will be executed in the background
   def execute!
     my_temp_file = Tempfile.new("jobler_test")

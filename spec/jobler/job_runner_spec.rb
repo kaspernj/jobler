@@ -21,12 +21,15 @@ describe Jobler::JobRunner do
 
     it "logs errors on the job" do
       job_runner.perform(job_with_error.id)
-
       job_with_error.reload
 
-      expect(job_with_error.state).to eq "error"
-      expect(job_with_error.error_message).to eq "test"
-      expect(job_with_error.error_type).to eq "RuntimeError"
+      expect(job_with_error).to have_attributes(
+        state: "error",
+        error_message: "test",
+        error_type: "RuntimeError",
+        protocol: "after-called",
+        slug: "before-called"
+      )
     end
   end
 end

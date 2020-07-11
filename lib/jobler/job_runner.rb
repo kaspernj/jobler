@@ -7,7 +7,13 @@ class Jobler::JobRunner < ActiveJob::Base # rubocop:disable Rails/ApplicationJob
 
     begin
       with_locale do
-        @job.jobler.execute!
+        @job.jobler.call_before_callbacks
+
+        begin
+          @job.jobler.execute!
+        ensure
+          @job.jobler.call_after_callbacks
+        end
       end
 
       @job.update!(ended_at: Time.zone.now, progress: 1.0, state: "completed")
