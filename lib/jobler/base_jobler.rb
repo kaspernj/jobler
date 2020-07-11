@@ -3,12 +3,12 @@ class Jobler::BaseJobler
   attr_reader :args, :job
 
   def self.before_jobling(&blk)
-    @@before_jobling ||= []
+    @@before_jobling ||= [] # rubocop:disable Style/ClassVars
     @@before_jobling << blk
   end
 
   def self.after_jobling(&blk)
-    @@after_jobling ||= []
+    @@after_jobling ||= [] # rubocop:disable Style/ClassVars
     @@after_jobling << blk
   end
 
