@@ -18,13 +18,13 @@ class Jobler::BaseJobler
   end
 
   def call_before_callbacks
-    @@before_jobling.each do |before_callback|
+    @@before_jobling&.each do |before_callback|
       instance_eval(&before_callback)
     end
   end
 
   def call_after_callbacks
-    @@after_jobling.each do |after_callback|
+    @@after_jobling&.each do |after_callback|
       instance_eval(&after_callback)
     end
   end
