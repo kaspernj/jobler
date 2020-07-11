@@ -2,9 +2,31 @@ class Jobler::BaseJobler
   attr_accessor :controller, :format
   attr_reader :args, :job
 
+  def self.before_jobling(&blk)
+    @@before_jobling ||= []
+    @@before_jobling << blk
+  end
+
+  def self.after_jobling(&blk)
+    @@after_jobling ||= []
+    @@after_jobling << blk
+  end
+
   def initialize(args:, job:)
     @args = args
     @job = job
+  end
+
+  def call_before_callbacks
+    @@before_jobling.each do |before_callback|
+      instance_eval(&before_callback)
+    end
+  end
+
+  def call_after_callbacks
+    @@after_jobling.each do |after_callback|
+      instance_eval(&after_callback)
+    end
   end
 
   def create_result!(content: nil, name:, temp_file: nil, save_in_database: false)
