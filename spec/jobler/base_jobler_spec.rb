@@ -15,6 +15,18 @@ describe Jobler::BaseJobler do
       expect(result.file.download).to eq "Hello world"
       expect(result.name).to eq "Test"
     end
+
+    it "creates a result with the given result" do
+      result = test_render_jobler.create_result!(
+        name: "test",
+        result: "hejsa"
+      )
+
+      expect(result).to have_attributes(
+        name: "test",
+        result: "hejsa"
+      )
+    end
   end
 
   describe "#render" do
