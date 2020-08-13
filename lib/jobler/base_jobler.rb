@@ -29,8 +29,8 @@ class Jobler::BaseJobler
     end
   end
 
-  def create_result!(content: nil, name:, temp_file: nil, save_in_database: false)
-    result = job.results.new(name: name)
+  def create_result!(content: nil, name:, result: nil, temp_file: nil, save_in_database: false)
+    jobler_result = job.results.new(name: name)
 
     if content && !temp_file
       temp_file = Tempfile.new(name)
@@ -38,22 +38,16 @@ class Jobler::BaseJobler
       temp_file.close
     end
 
-    raise "No tempfile could be found" unless temp_file
-
-    if save_in_database
-      temp_file = temp_file
-      temp_file.close unless temp_file.closed?
-      content = File.read(temp_file.path)
-      result.result = content
+    if result
+      jobler_result.result = result
     else
-      result.file.attach(
-        filename: File.basename(temp_file.path),
-        io: File.open(temp_file.path)
-      )
+      raise "No tempfile could be found" unless temp_file
+
+      handle_file(jobler_result: jobler_result, save_in_database: save_in_database, temp_file: temp_file)
     end
 
-    result.save!
-    result
+    jobler_result.save!
+    jobler_result
   end
 
   def execute!
@@ -139,5 +133,21 @@ class Jobler::BaseJobler
     raise "No result by that name: #{name}" unless job_result
 
     Rails.application.routes.url_helpers.rails_blob_path(job_result.file.attachment, only_path: true)
+  end
+
+private
+
+  def handle_file(jobler_result:, save_in_database:, temp_file:)
+    if save_in_database
+      temp_file = temp_file
+      temp_file.close unless temp_file.closed?
+      content = File.read(temp_file.path)
+      jobler_result.result = content
+    else
+      jobler_result.file.attach(
+        filename: File.basename(temp_file.path),
+        io: File.open(temp_file.path)
+      )
+    end
   end
 end
