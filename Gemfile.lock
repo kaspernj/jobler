@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    jobler (0.0.12)
+    jobler (0.0.13)
       rails (>= 6.0.0)
 
 GEM
@@ -202,7 +202,7 @@ GEM
     tzinfo-data (1.2020.1)
       tzinfo (>= 1.0.0)
     unicode-display_width (1.7.0)
-    websocket-driver (0.7.2)
+    websocket-driver (0.7.3)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     xpath (3.2.0)
