@@ -139,7 +139,6 @@ private
 
   def handle_file(jobler_result:, save_in_database:, temp_file:)
     if save_in_database
-      temp_file = temp_file
       temp_file.close unless temp_file.closed?
       content = File.read(temp_file.path)
       jobler_result.result = content
