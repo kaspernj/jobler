@@ -15,6 +15,9 @@ class Jobler::BaseJobler
   def initialize(args:, job:)
     @args = args
     @job = job
+
+    @@before_jobling ||= []
+    @@after_jobling ||= []
   end
 
   def call_before_callbacks
