@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
   s.summary     = "Generate pages or files in the background"
   s.description = "Generate pages or files in the background"
   s.license     = "MIT"
+  s.required_ruby_version = ">= 2.5"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
