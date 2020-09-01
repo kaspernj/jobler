@@ -6,6 +6,7 @@ AllCops:
     - db/schema.rb
     - node_modules/**/*
     - spec/dummy/db/schema.rb
+  NewCops: enable
 
 require:
   - rubocop-performance
@@ -194,6 +195,9 @@ Style/HashTransformKeys:
 
 Style/HashTransformValues:
   Enabled: true
+
+Style/KeywordParametersOrder:
+  Enabled: false
 
 Style/Lambda:
   Enabled: false

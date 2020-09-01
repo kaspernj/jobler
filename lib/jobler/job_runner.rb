@@ -30,11 +30,9 @@ class Jobler::JobRunner < ActiveJob::Base # rubocop:disable Rails/ApplicationJob
 
 private
 
-  def with_locale
+  def with_locale(&blk)
     if @job.locale?
-      I18n.with_locale(@job.locale) do
-        yield
-      end
+      I18n.with_locale(@job.locale, &blk)
     else
       yield
     end
