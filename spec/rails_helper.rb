@@ -33,6 +33,7 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].sort.each { |f| require f }
 # ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
+  config.include ActionDispatch::TestProcess::FixtureFile
   config.include ActiveJob::TestHelper
   config.include Jobler::Engine.routes.url_helpers
   config.include FactoryBot::Syntax::Methods
