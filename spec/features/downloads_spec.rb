@@ -1,7 +1,6 @@
 require "rails_helper"
 
 path = File.realpath("spec/fixtures/test.csv")
-puts "Path: #{path}"
 
 describe "downloads" do
   let(:job) { create :job }
