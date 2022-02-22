@@ -3,5 +3,5 @@ class Jobler::Result < ActiveRecord::Base # rubocop:disable Rails/ApplicationRec
 
   has_one_attached :file
 
-  validates :job, :name, presence: true
+  validates :name, presence: true
 end
