@@ -1,5 +1,5 @@
 rvm: true
-script:
+before_script:
   - bundle exec appraisal bundle
   - bundle exec rake db:schema:load
 builds:
