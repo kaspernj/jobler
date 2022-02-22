@@ -6,7 +6,7 @@ require "active_storage/engine"
 require "action_controller/railtie"
 require "action_mailer/railtie"
 require "action_view/railtie"
-require "sprockets/railtie"
+require "sprockets/railtie" unless Gem.loaded_specs["rails"].version.to_s.start_with?("7.")
 # require "rails/test_unit/railtie"
 
 Bundler.require(*Rails.groups)
