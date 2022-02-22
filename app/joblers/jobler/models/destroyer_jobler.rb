@@ -15,25 +15,25 @@ class Jobler::Models::DestroyerJobler < Jobler::BaseJobler
 private
 
   def calculate_numbers
-    Rails.logger.debug "Calculate numbers"
+    Rails.logger.debug { "Calculate numbers" }
 
     @total = 0
     relationships.each do |relationship|
-      Rails.logger.debug "Calculate size for #{relationship}"
+      Rails.logger.debug { "Calculate size for #{relationship}" }
       @total += model.__send__(relationship).size
     end
 
     progress_total @total
 
-    Rails.logger.debug "Done calculating numbers: #{@total}"
+    Rails.logger.debug { "Done calculating numbers: #{@total}" }
   end
 
   def destroy_relationships
     Rails.logger.debug "Destroying relationships"
     relationships.each do |relationship|
-      Rails.logger.debug "Destroying #{relationship}"
+      Rails.logger.debug { "Destroying #{relationship}" }
       model.__send__(relationship).find_each do |sub_model|
-        Rails.logger.debug "Destroying #{sub_model.id}"
+        Rails.logger.debug { "Destroying #{sub_model.id}" }
         sub_model.destroy!
         increment_progress!
       end

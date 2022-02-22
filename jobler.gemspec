@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
   s.description = "Generate pages or files in the background"
   s.license     = "MIT"
   s.required_ruby_version = ">= 2.7"
+  s.metadata["rubygems_mfa_required"] = "true"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
