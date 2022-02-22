@@ -1,7 +1,7 @@
 rvm: true
 before_script:
   - bundle exec appraisal bundle
-  - bundle exec rake db:schema:load
+  - bundle exec rails db:schema:load
 builds:
   build_1:
     environment:
