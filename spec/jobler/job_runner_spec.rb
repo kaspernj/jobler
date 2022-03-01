@@ -13,9 +13,9 @@ describe Jobler::JobRunner do
 
       job.reload
 
-      expect(job.error_message).to eq nil
-      expect(job.error_type).to eq nil
-      expect(job.error_backtrace).to eq nil
+      expect(job.error_message).to be_nil
+      expect(job.error_type).to be_nil
+      expect(job.error_backtrace).to be_nil
       expect(job.state).to eq "completed"
     end
 
