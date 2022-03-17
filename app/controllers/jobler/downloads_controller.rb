@@ -10,7 +10,7 @@ class Jobler::DownloadsController < Jobler::ApplicationController
         send_file @result.temp_file.path, disposition: "attachment", filename: @result.file_name
       end
     else
-      flash[:error] = "The result wasn't a file download"
+      flash[:error] = t("jober.the_result_wasnt_a_file_download")
       redirect_to :back
     end
   end
