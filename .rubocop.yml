@@ -116,6 +116,9 @@ Performance/StringInclude:
 Rails/FindEach:
   Enabled: false
 
+Rails/I18nLocaleTexts:
+  Enabled: false
+
 RSpec/AnyInstance:
   Enabled: false
 
