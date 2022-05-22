@@ -119,6 +119,9 @@ Rails/FindEach:
 RSpec/AnyInstance:
   Enabled: false
 
+RSpec/ChangeByZero:
+  Enabled: false
+
 RSpec/ContextWording:
   Enabled: false
 
