@@ -134,6 +134,9 @@ RSpec/DescribedClass:
 RSpec/ExampleLength:
   Enabled: false
 
+RSpec/FactoryBot/ConsistentParenthesesStyle:
+  Enabled: false
+
 RSpec/LetSetup:
   Enabled: false
 
