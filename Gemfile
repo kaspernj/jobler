@@ -6,6 +6,7 @@ source "https://rubygems.org"
 gemspec
 
 group :development, :test do
+  gem "appraisal"
   gem "best_practice_project", require: false
   gem "capybara"
   gem "factory_bot_rails"
