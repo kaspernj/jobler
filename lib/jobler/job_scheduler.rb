@@ -13,13 +13,15 @@ class Jobler::JobScheduler
     @jobler_type = args.fetch(:jobler_type)
     @job_args = args[:job_args]
     @locale = args[:locale]
+    @status_title = args[:status_title]
   end
 
   def create_job
     @job = Jobler::Job.new(
       jobler_type: @jobler_type,
       locale: @locale.presence || I18n.locale,
-      parameters: YAML.dump(@job_args)
+      parameters: YAML.dump(@job_args),
+      status_title: @status_title
     )
 
     if @controller

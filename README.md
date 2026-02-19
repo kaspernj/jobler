@@ -70,10 +70,14 @@ You can do something like this in your controller:
 ```ruby
 class MyController < Jobler::BaseController
   def some_action
-    scheduler = Jobler::JobScheduler.create! jobler_type: "MyJobler", job_args: {
-      current_user_id: current_user.id,
-      query_parameters: request.query_parameters
-    }
+    scheduler = Jobler::JobScheduler.create!(
+      jobler_type: "MyJobler",
+      status_title: "Generating account report",
+      job_args: {
+        current_user_id: current_user.id,
+        query_parameters: request.query_parameters
+      }
+    )
 
     redirect_to jobler.job_path(scheduler.job)
   end
@@ -162,4 +166,3 @@ You can also specify a custom value if it isn't 1:
 ## License
 
 This project rocks and uses MIT-LICENSE.
-
