@@ -120,6 +120,10 @@ class Jobler::BaseJobler
     raise NoMethodError, "You should define the 'result' method on #{self.class.name}"
   end
 
+  def status_title!(value)
+    job.update!(status_title: value)
+  end
+
   def temp_file_for_result(name:)
     job_result = job.results.where(name: name).first
     raise "No result by that name: #{name}" unless job_result

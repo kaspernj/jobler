@@ -4,13 +4,7 @@ class Jobler::JobsController < Jobler::ApplicationController
 
     respond_to do |format|
       format.json do
-        render json: {
-          job: {
-            progress: @job.progress,
-            state: @job.state,
-            state_humanized: @job.state.humanize
-          }
-        }
+        render json: {job: job_payload}
       end
 
       if @job.completed?
@@ -28,5 +22,17 @@ class Jobler::JobsController < Jobler::ApplicationController
         format.html
       end
     end
+  end
+
+private
+
+  def job_payload
+    {
+      headline: @job.status_title.presence || @job.state.humanize,
+      progress: @job.progress,
+      state: @job.state,
+      state_humanized: @job.state.humanize,
+      status_title: @job.status_title
+    }
   end
 end
