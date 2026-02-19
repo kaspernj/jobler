@@ -1,6 +1,12 @@
 <div class="job" data-id="<%= @job.id %>" data-path="<%= job_path(@job) %>" data-state="<%= @job.state %>"></div>
 
-<h1 class="job-headline"><%= @job.status_title.presence || @job.state.humanize %></h1>
+<h1 class="job-headline">
+  <% if @job.completed? || @job.error? %>
+    <%= @job.state.humanize %>
+  <% else %>
+    <%= @job.status_title.presence || @job.state.humanize %>
+  <% end %>
+</h1>
 
 <% if @job.completed? %>
   <% if @result.is_a?(Jobler::FileDownload) %>
