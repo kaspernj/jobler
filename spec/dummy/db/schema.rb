@@ -16,7 +16,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_19_090000) do
     t.string "record_type", null: false
     t.integer "record_id", null: false
     t.integer "blob_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -26,9 +26,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_19_090000) do
     t.string "filename", null: false
     t.string "content_type"
     t.text "metadata"
-    t.integer "byte_size", null: false
+    t.bigint "byte_size", null: false
     t.string "checksum", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
@@ -44,10 +44,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_19_090000) do
     t.string "state", default: "new", null: false
     t.float "progress", default: 0.0, null: false
     t.text "parameters"
-    t.datetime "started_at"
-    t.datetime "ended_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "started_at", precision: nil
+    t.datetime "ended_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "locale"
     t.text "error_message"
     t.string "error_type"
@@ -63,13 +63,14 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_19_090000) do
   create_table "jobler_results", force: :cascade do |t|
     t.integer "job_id", null: false
     t.string "name", null: false
-    t.binary "result"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.binary "result", limit: 16777216
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["job_id"], name: "index_jobler_results_on_job_id"
     t.index ["name"], name: "index_jobler_results_on_name"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "jobler_results", "jobler_jobs", column: "job_id"
 end
