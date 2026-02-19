@@ -1,0 +1,2 @@
+- Add `release:patch` Rake task to bump patch version, run `bundle`, commit and push to `master`, then `gem build` and `gem push`.
+- Document `release:patch` usage and behavior in `README.md`.

@@ -178,3 +178,22 @@ end
 ## License
 
 This project rocks and uses MIT-LICENSE.
+
+## Release
+
+Run this task to release a patch version:
+
+```bash
+bundle exec rake release:patch
+```
+
+It will:
+
+1. Ensure the git worktree is clean and on `master`.
+2. Pull latest `master` with fast-forward only.
+3. Bump `Jobler::VERSION` patch number.
+4. Run `bundle`.
+5. Commit and push to `origin/master`.
+6. Build and push the gem.
+
+`gem push` runs in your terminal session, so RubyGems MFA/2FA prompts work interactively.

@@ -25,3 +25,6 @@ if Rails.env.development? || Rails.env.test? # rubocop:disable Rails/EnvLocal
 end
 
 Bundler::GemHelper.install_tasks
+
+desc "Bump patch version, bundle, commit, push master, build and push gem"
+task "release:patch" => "app:release:patch"
