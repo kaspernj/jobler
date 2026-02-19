@@ -70,10 +70,14 @@ You can do something like this in your controller:
 ```ruby
 class MyController < Jobler::BaseController
   def some_action
-    scheduler = Jobler::JobScheduler.create! jobler_type: "MyJobler", job_args: {
-      current_user_id: current_user.id,
-      query_parameters: request.query_parameters
-    }
+    scheduler = Jobler::JobScheduler.create!(
+      jobler_type: "MyJobler",
+      status_title: "Generating account report",
+      job_args: {
+        current_user_id: current_user.id,
+        query_parameters: request.query_parameters
+      }
+    )
 
     redirect_to jobler.job_path(scheduler.job)
   end
@@ -159,7 +163,18 @@ You can also specify a custom value if it isn't 1:
 <% jobler.increment_progress!(value: 5.0) %>
 ```
 
+If you want the headline on the status page to show the current step while the job is running, update it from your jobler:
+```ruby
+class MyJobler < ApplicationJobler
+  def execute!
+    status_title!("Fetching source data")
+    # ...
+    status_title!("Generating report")
+    # ...
+  end
+end
+```
+
 ## License
 
 This project rocks and uses MIT-LICENSE.
-

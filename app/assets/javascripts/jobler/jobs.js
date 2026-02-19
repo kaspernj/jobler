@@ -7,7 +7,7 @@ function updateJobProgress() {
 
     result = $.parseJSON(data.responseText)
 
-    $(".job-headline").text(result.job.state_humanized)
+    $(".job-headline").text(result.job.headline)
     $(".progress-bar").text((result.job.progress * 100).toFixed(0) + "%")
     $(".progress-bar").css({width: (result.job.progress * 100) + "%"})
 

@@ -36,4 +36,14 @@ describe Jobler::BaseJobler do
       expect(content).to include "https://jobler.test.host:1234/jobler_jobs/#{job.to_param}"
     end
   end
+
+  describe "#status_title!" do
+    it "updates the jobs status title" do
+      test_render_jobler.status_title!("Preparing data")
+
+      expect(job.reload).to have_attributes(
+        status_title: "Preparing data"
+      )
+    end
+  end
 end

@@ -15,5 +15,18 @@ describe Jobler::JobScheduler do
 
       expect(created_job.locale).to eq "da"
     end
+
+    it "persists status title when given" do
+      scheduler_with_title = Jobler::JobScheduler.new(
+        jobler_type: "TestJobler",
+        status_title: "Activating docker server"
+      )
+
+      scheduler_with_title.create_job
+
+      expect(Jobler::Job.last!).to have_attributes(
+        status_title: "Activating docker server"
+      )
+    end
   end
 end
