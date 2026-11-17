@@ -4,30 +4,118 @@ before_script:
   - bundle exec rails db:schema:load
 builds:
   build_1:
+    paths:
+      - "app/**"
+      - "config/**"
+      - "db/**"
+      - "lib/**"
+      - "spec/**"
+      - "Gemfile"
+      - "Gemfile.lock"
+      - "Appraisals"
+      - "Rakefile"
+      - "jobler.gemspec"
+      - ".ruby-version"
+      - "peak_flow.yml"
+      - ".github/**"
+      - "gemfiles/rails_6.gemfile"
+      - "gemfiles/rails_6.gemfile.lock"
+      - "!gemfiles/rails_7.gemfile"
+      - "!gemfiles/rails_7.gemfile.lock"
     environment:
       RUBY_VERSION: 2.7.5
     name: Ruby 2.7.5, Rails 6
     script:
       - bundle exec appraisal "rails 6" rspec
   build_2:
+    paths:
+      - "app/**"
+      - "config/**"
+      - "db/**"
+      - "lib/**"
+      - "spec/**"
+      - "Gemfile"
+      - "Gemfile.lock"
+      - "Appraisals"
+      - "Rakefile"
+      - "jobler.gemspec"
+      - ".ruby-version"
+      - "peak_flow.yml"
+      - ".github/**"
+      - "gemfiles/rails_7.gemfile"
+      - "gemfiles/rails_7.gemfile.lock"
+      - "!gemfiles/rails_6.gemfile"
+      - "!gemfiles/rails_6.gemfile.lock"
     environment:
       RUBY_VERSION: 2.7.5
     name: Ruby 2.7.5, Rails 7
     script:
       - bundle exec appraisal "rails 7" rspec
   build_3:
+    paths:
+      - "app/**"
+      - "config/**"
+      - "db/**"
+      - "lib/**"
+      - "spec/**"
+      - "Gemfile"
+      - "Gemfile.lock"
+      - "Appraisals"
+      - "Rakefile"
+      - "jobler.gemspec"
+      - ".ruby-version"
+      - "peak_flow.yml"
+      - ".github/**"
+      - "gemfiles/rails_6.gemfile"
+      - "gemfiles/rails_6.gemfile.lock"
+      - "!gemfiles/rails_7.gemfile"
+      - "!gemfiles/rails_7.gemfile.lock"
     environment:
       RUBY_VERSION: 3.0.3
     name: Ruby 3.0.3, Rails 6
     script:
       - bundle exec appraisal "rails 6" rspec
   build_4:
+    paths:
+      - "app/**"
+      - "config/**"
+      - "db/**"
+      - "lib/**"
+      - "spec/**"
+      - "Gemfile"
+      - "Gemfile.lock"
+      - "Appraisals"
+      - "Rakefile"
+      - "jobler.gemspec"
+      - ".ruby-version"
+      - "peak_flow.yml"
+      - ".github/**"
+      - "gemfiles/rails_7.gemfile"
+      - "gemfiles/rails_7.gemfile.lock"
+      - "!gemfiles/rails_6.gemfile"
+      - "!gemfiles/rails_6.gemfile.lock"
     environment:
       RUBY_VERSION: 3.0.3
     name: Ruby 3.0.3, Rails 7
     script:
       - bundle exec appraisal "rails 7" rspec
   build_5:
+    paths:
+      - "app/**"
+      - "config/**"
+      - "db/**"
+      - "lib/**"
+      - "spec/**"
+      - "Gemfile"
+      - "Gemfile.lock"
+      - "Appraisals"
+      - "Rakefile"
+      - "jobler.gemspec"
+      - ".rubocop.yml"
+      - ".ruby-version"
+      - "peak_flow.yml"
+      - ".github/**"
+      - "gemfiles/**"
     name: Linters
     script:
       - bundle exec rake best_practice_project:run
