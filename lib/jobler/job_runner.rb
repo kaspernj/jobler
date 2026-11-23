@@ -25,6 +25,8 @@ class Jobler::JobRunner < ActiveJob::Base # rubocop:disable Rails/ApplicationJob
         error_backtrace: e.backtrace.join("\n"),
         state: "error"
       )
+
+      @job.jobler.call_error_callbacks(e)
     end
   end
 

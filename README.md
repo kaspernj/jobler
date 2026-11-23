@@ -87,6 +87,23 @@ end
 This will show a wait page and them a complete page with a download link, once the job is completed.
 
 
+## Error callbacks
+
+`on_error` callbacks run when a jobler fails, with the exception as the argument. They run after the failure has been recorded on the job, so the callback can read `job.state`, `job.error_message`, `job.error_type` and `job.error_backtrace`.
+
+Like `before_jobling` and `after_jobling`, a callback registered on `Jobler::BaseJobler` runs for every jobler, which makes the application jobler the natural place for it:
+
+```ruby
+class ApplicationJobler < Jobler::BaseJobler
+  on_error do |error|
+    ErrorReporter.report(error, job: job)
+  end
+end
+```
+
+Joblers that complete do not call the callbacks.
+
+
 # Rendering views
 
 First add a special controller that your Jobler's can use:

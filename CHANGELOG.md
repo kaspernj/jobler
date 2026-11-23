@@ -1,2 +1,3 @@
+- Add `on_error` callbacks to `Jobler::BaseJobler`, called by `Jobler::JobRunner` with the exception after the failure has been recorded on the job.
 - Add `release:patch` Rake task to bump patch version, run `bundle`, commit and push to `master`, then `gem build` and `gem push`.
 - Document `release:patch` usage and behavior in `README.md`.

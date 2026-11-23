@@ -3,6 +3,7 @@ require "rails_helper"
 describe Jobler::JobRunner do
   let(:job) { create :job, locale: "da" }
   let(:job_with_error) { create :job, jobler_type: "TestErrorJobler" }
+  let(:job_with_error_callback) { create :job, jobler_type: "TestOnErrorJobler" }
   let(:job_runner) { Jobler::JobRunner.new }
 
   describe "#perform" do
@@ -30,6 +31,23 @@ describe Jobler::JobRunner do
         protocol: "after-called",
         slug: "before-called"
       )
+    end
+
+    it "calls on_error callbacks with the exception, after the failure has been recorded on the job" do
+      job_runner.perform(job_with_error_callback.id)
+
+      expect(job_with_error_callback.reload).to have_attributes(
+        state: "error",
+        error_message: "on error callback",
+        error_type: "ArgumentError",
+        status_title: "ArgumentError: on error callback: error: ArgumentError"
+      )
+    end
+
+    it "does not call on_error callbacks when the job completes" do
+      job_runner.perform(job.id)
+
+      expect(job.reload.status_title).to be_nil
     end
   end
 end
