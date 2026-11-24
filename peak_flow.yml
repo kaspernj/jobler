@@ -1,7 +1,13 @@
 rvm: true
-before_script:
-  - bundle exec appraisal bundle
-  - bundle exec rails db:schema:load
+before_install:
+  - >-
+    sudo env DEBIAN_FRONTEND=noninteractive NEEDRESTART_MODE=a apt-get
+    -o Acquire::Retries=5 update
+  - >-
+    sudo env DEBIAN_FRONTEND=noninteractive NEEDRESTART_MODE=a apt-get
+    -o Acquire::Retries=5 install --yes
+    build-essential libffi-dev libreadline-dev libsqlite3-dev libssl-dev
+    libyaml-dev pkg-config zlib1g-dev
 builds:
   build_1:
     paths:
@@ -20,15 +26,20 @@ builds:
       - ".ruby-version"
       - "peak_flow.yml"
       - ".github/**"
-      - "gemfiles/rails_6.gemfile"
-      - "gemfiles/rails_6.gemfile.lock"
-      - "!gemfiles/rails_7.gemfile"
-      - "!gemfiles/rails_7.gemfile.lock"
+      - "gemfiles/rails_7.gemfile"
+      - "gemfiles/rails_7.gemfile.lock"
+      - "!gemfiles/rails_8.gemfile"
+      - "!gemfiles/rails_8.gemfile.lock"
     environment:
-      RUBY_VERSION: 2.7.5
-    name: Ruby 2.7.5, Rails 6
+      RUBY_VERSION: 3.4.13
+    name: Ruby 3.4.13, Rails 7
+    before_script:
+      - echo "3.4.13" > .ruby-version
+      - gem install bundler --no-document
+      - BUNDLE_GEMFILE=gemfiles/rails_7.gemfile bundle install --jobs 4
+      - BUNDLE_GEMFILE=gemfiles/rails_7.gemfile bundle exec rails db:schema:load
     script:
-      - bundle exec appraisal "rails 6" rspec
+      - BUNDLE_GEMFILE=gemfiles/rails_7.gemfile bundle exec rspec
   build_2:
     paths:
       - "app/**"
@@ -46,15 +57,20 @@ builds:
       - ".ruby-version"
       - "peak_flow.yml"
       - ".github/**"
-      - "gemfiles/rails_7.gemfile"
-      - "gemfiles/rails_7.gemfile.lock"
-      - "!gemfiles/rails_6.gemfile"
-      - "!gemfiles/rails_6.gemfile.lock"
+      - "gemfiles/rails_8.gemfile"
+      - "gemfiles/rails_8.gemfile.lock"
+      - "!gemfiles/rails_7.gemfile"
+      - "!gemfiles/rails_8.gemfile.lock"
     environment:
-      RUBY_VERSION: 2.7.5
-    name: Ruby 2.7.5, Rails 7
+      RUBY_VERSION: 3.4.13
+    name: Ruby 3.4.13, Rails 8
+    before_script:
+      - echo "3.4.13" > .ruby-version
+      - gem install bundler --no-document
+      - BUNDLE_GEMFILE=gemfiles/rails_8.gemfile bundle install --jobs 4
+      - BUNDLE_GEMFILE=gemfiles/rails_8.gemfile bundle exec rails db:schema:load
     script:
-      - bundle exec appraisal "rails 7" rspec
+      - BUNDLE_GEMFILE=gemfiles/rails_8.gemfile bundle exec rspec
   build_3:
     paths:
       - "app/**"
@@ -72,15 +88,20 @@ builds:
       - ".ruby-version"
       - "peak_flow.yml"
       - ".github/**"
-      - "gemfiles/rails_6.gemfile"
-      - "gemfiles/rails_6.gemfile.lock"
-      - "!gemfiles/rails_7.gemfile"
-      - "!gemfiles/rails_7.gemfile.lock"
+      - "gemfiles/rails_7.gemfile"
+      - "gemfiles/rails_7.gemfile.lock"
+      - "!gemfiles/rails_8.gemfile"
+      - "!gemfiles/rails_8.gemfile.lock"
     environment:
-      RUBY_VERSION: 3.0.3
-    name: Ruby 3.0.3, Rails 6
+      RUBY_VERSION: 4.0.10
+    name: Ruby 4.0.10, Rails 7
+    before_script:
+      - echo "4.0.10" > .ruby-version
+      - gem install bundler --no-document
+      - BUNDLE_GEMFILE=gemfiles/rails_7.gemfile bundle install --jobs 4
+      - BUNDLE_GEMFILE=gemfiles/rails_7.gemfile bundle exec rails db:schema:load
     script:
-      - bundle exec appraisal "rails 6" rspec
+      - BUNDLE_GEMFILE=gemfiles/rails_7.gemfile bundle exec rspec
   build_4:
     paths:
       - "app/**"
@@ -98,15 +119,20 @@ builds:
       - ".ruby-version"
       - "peak_flow.yml"
       - ".github/**"
-      - "gemfiles/rails_7.gemfile"
-      - "gemfiles/rails_7.gemfile.lock"
-      - "!gemfiles/rails_6.gemfile"
-      - "!gemfiles/rails_6.gemfile.lock"
+      - "gemfiles/rails_8.gemfile"
+      - "gemfiles/rails_8.gemfile.lock"
+      - "!gemfiles/rails_7.gemfile"
+      - "!gemfiles/rails_8.gemfile.lock"
     environment:
-      RUBY_VERSION: 3.0.3
-    name: Ruby 3.0.3, Rails 7
+      RUBY_VERSION: 4.0.10
+    name: Ruby 4.0.10, Rails 8
+    before_script:
+      - echo "4.0.10" > .ruby-version
+      - gem install bundler --no-document
+      - BUNDLE_GEMFILE=gemfiles/rails_8.gemfile bundle install --jobs 4
+      - BUNDLE_GEMFILE=gemfiles/rails_8.gemfile bundle exec rails db:schema:load
     script:
-      - bundle exec appraisal "rails 7" rspec
+      - BUNDLE_GEMFILE=gemfiles/rails_8.gemfile bundle exec rspec
   build_5:
     paths:
       - "app/**"
@@ -125,5 +151,9 @@ builds:
       - ".github/**"
       - "gemfiles/**"
     name: Linters
+    before_script:
+      - echo "3.4.13" > .ruby-version
+      - gem install bundler --no-document
+      - bundle install --jobs 4
     script:
       - bundle exec rake best_practice_project:run

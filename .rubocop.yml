@@ -5,13 +5,16 @@ AllCops:
     - db/data_schema.rb
     - db/schema.rb
     - node_modules/**/*
+    - spec/dummy/bin/**/*
     - spec/dummy/db/schema.rb
   NewCops: enable
+  TargetRailsVersion: 6.0
 
-require:
+plugins:
   - rubocop-performance
   - rubocop-rails
   - rubocop-rspec
+  - rubocop-factory_bot
 
 Layout/AccessModifierIndentation:
   EnforcedStyle: outdent
@@ -134,7 +137,7 @@ RSpec/DescribedClass:
 RSpec/ExampleLength:
   Enabled: false
 
-RSpec/FactoryBot/ConsistentParenthesesStyle:
+FactoryBot/ConsistentParenthesesStyle:
   Enabled: false
 
 RSpec/LetSetup:
