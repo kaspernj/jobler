@@ -12,12 +12,17 @@ class Jobler::BaseJobler
     @@after_jobling << blk
   end
 
+  def self.on_error(&blk)
+    @@on_error ||= [] # rubocop:disable Style/ClassVars
+    @@on_error << blk
+  end
+
   def initialize(args:, job:)
     @args = args
     @job = job
 
-    @@before_jobling ||= [] # rubocop:disable Style/ClassVars:
-    @@after_jobling ||= [] # rubocop:disable Style/ClassVars:
+    @@before_jobling ||= [] # rubocop:disable Style/ClassVars
+    @@after_jobling ||= [] # rubocop:disable Style/ClassVars
   end
 
   def call_before_callbacks
@@ -29,6 +34,12 @@ class Jobler::BaseJobler
   def call_after_callbacks
     @@after_jobling&.each do |after_callback|
       instance_eval(&after_callback)
+    end
+  end
+
+  def call_error_callbacks(error)
+    @@on_error&.each do |error_callback|
+      instance_exec(error, &error_callback)
     end
   end
 

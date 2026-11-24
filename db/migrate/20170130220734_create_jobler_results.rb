@@ -3,7 +3,7 @@ class CreateJoblerResults < ActiveRecord::Migration[5.1]
     create_table :jobler_results do |t|
       t.belongs_to :job, index: true, null: false
       t.string :name, index: true, null: false
-      t.binary :result, limit: 16.megabyte
+      t.binary :result, limit: 16.megabytes
       t.timestamps null: false
     end
 

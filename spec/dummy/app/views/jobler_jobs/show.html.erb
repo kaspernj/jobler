@@ -1,1 +1,1 @@
-<%= @result.result.force_encoding("utf-8").html_safe %>
+<%= @result.result.dup.force_encoding("utf-8").html_safe %>
