@@ -21,9 +21,8 @@ class Jobler::BaseJobler
     @args = args
     @job = job
 
-    @@before_jobling ||= [] # rubocop:disable Style/ClassVars:
-    @@after_jobling ||= [] # rubocop:disable Style/ClassVars:
-    @@on_error ||= [] # rubocop:disable Style/ClassVars:
+    @@before_jobling ||= [] # rubocop:disable Style/ClassVars
+    @@after_jobling ||= [] # rubocop:disable Style/ClassVars
   end
 
   def call_before_callbacks
