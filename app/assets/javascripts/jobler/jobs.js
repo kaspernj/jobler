@@ -1,31 +1,34 @@
 function updateJobProgress() {
-  console.log("updateJobProgress()")
-  job = $(".job")
+  var job = $(".job");
 
-  $.ajax({type: "GET", url: job.data("job-path"), complete: function(data) {
-    console.log(data.responseText)
+  $.ajax({type: "GET", url: job.data("path"), complete: function(data) {
+    var result = $.parseJSON(data.responseText);
+    var percentage = Math.round(result.job.progress * 100);
 
-    result = $.parseJSON(data.responseText)
+    $(".job-headline").text(result.job.headline);
+    $(".progress-bar").text(percentage + "%");
+    $(".progress-bar").css({width: percentage + "%"});
+    $(".progress-bar").attr("aria-valuenow", percentage);
 
-    $(".job-headline").text(result.job.headline)
-    $(".progress-bar").text((result.job.progress * 100).toFixed(0) + "%")
-    $(".progress-bar").css({width: (result.job.progress * 100) + "%"})
-
-    if (result.job.state == "completed" || result.job.state == "error") {
-      console.log("Job is completed - reload!")
-      location.reload()
+    if (result.job.progress_total_count > 0) {
+      $(".progress-current-count").text(result.job.progress_current_count);
+      $(".progress-total-count").text(result.job.progress_total_count);
     }
-  }})
 
-  if (job.data("state") != "completed") {
-    setTimeout("updateJobProgress()", 2000)
+    if (result.job.state === "completed" || result.job.state === "error") {
+      location.reload();
+    }
+  }});
+
+  if (job.data("state") !== "completed") {
+    setTimeout(updateJobProgress, 2000);
   }
 }
 
 $(document).ready(function() {
-  job = $(".job")
+  var job = $(".job");
 
-  if (job.data("state") != "completed" && job.data("state") != "error") {
-    setTimeout("updateJobProgress()", 1000)
+  if (job.data("state") !== "completed" && job.data("state") !== "error") {
+    setTimeout(updateJobProgress, 1000);
   }
-})
+});

@@ -20,6 +20,20 @@ describe Jobler::JobRunner do
       expect(job.state).to eq "completed"
     end
 
+    it "closes out the progress counts when the job completes" do
+      job_with_progress = create :job, jobler_type: "TestProgressJobler"
+
+      job_runner.perform(job_with_progress.id)
+
+      expect(job_with_progress.reload).to have_attributes(
+        progress: 1.0,
+        progress_current_count: 1000,
+        progress_total_count: 1000,
+        state: "completed",
+        status_title: "Preparing data"
+      )
+    end
+
     it "logs errors on the job" do
       job_runner.perform(job_with_error.id)
       job_with_error.reload

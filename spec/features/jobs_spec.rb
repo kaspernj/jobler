@@ -20,6 +20,14 @@ describe "jobs" do
       expect(page).to have_content "Resetting docker server build-node-1"
     end
 
+    it "shows how far the job has come" do
+      job_with_counts = create :job, progress_current_count: 37, progress_total_count: 214
+
+      visit job_path(job_with_counts)
+
+      expect(page).to have_content "37 of 214"
+    end
+
     it "redirects and uses the apps render mechanism" do
       redirect_job_result
 

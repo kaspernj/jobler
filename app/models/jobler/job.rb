@@ -17,6 +17,11 @@ class Jobler::Job < ActiveRecord::Base # rubocop:disable Rails/ApplicationRecord
     state == "error"
   end
 
+  # False in apps that have not installed 20261126090000_add_progress_counts_to_jobler_jobs yet.
+  def progress_counts_available?
+    has_attribute?(:progress_current_count) && has_attribute?(:progress_total_count)
+  end
+
   def to_param
     raise "No slug" unless slug?
 
