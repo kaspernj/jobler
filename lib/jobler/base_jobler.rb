@@ -1,4 +1,12 @@
 class Jobler::BaseJobler
+  # Progress is written at most once per this fraction of the job, so a jobler that
+  # increments once per record does not write - and broadcast - once per record.
+  PROGRESS_WRITE_MINIMUM_DIFFERENCE = 0.01
+
+  # Without a declared total there is no fraction to throttle on, so the counts
+  # fall back to this interval instead.
+  COUNTS_WRITE_MINIMUM_INTERVAL_SECONDS = 1.0
+
   attr_accessor :controller, :format
   attr_reader :args, :job
 
@@ -20,6 +28,7 @@ class Jobler::BaseJobler
   def initialize(args:, job:)
     @args = args
     @job = job
+    @_status_title = job.status_title if job.has_attribute?(:status_title)
 
     @@before_jobling ||= [] # rubocop:disable Style/ClassVars
     @@after_jobling ||= [] # rubocop:disable Style/ClassVars
@@ -80,27 +89,23 @@ class Jobler::BaseJobler
     new_name
   end
 
+  # Counts one finished step. Safe to call before any total is declared: until a
+  # total arrives the job reports raw counts and no fraction.
   def increment_progress!(value: 1.0)
-    @_progress_count ||= 0.0
-    @_progress_count += value.to_f
+    @_progress_count = @_progress_count.to_f + value.to_f
+    @_progress_steps = @_progress_steps.to_i + value.to_i
 
-    new_progress = @_progress_count / @_progress_total
-
-    if @_current_progress.nil?
-      update = true
-    else
-      progress_difference = new_progress - @_current_progress
-      update = true if progress_difference > 0.01
-    end
-
-    if update
-      job.update!(progress: new_progress)
-      @_current_progress = new_progress
-    end
+    _update_progress(force: false)
   end
 
-  def progress_total(new_total)
-    @_progress_total = new_total.to_f
+  # Declares how many steps the job is about to run, which is what turns a bare
+  # percentage into "37 of 214". Can be called after some steps have already been
+  # counted, as long as the total is only known once the work has started.
+  def progress_total(new_total = nil)
+    @_progress_total = new_total&.to_f
+    @_progress_last_written = nil
+
+    _update_progress(force: true)
   end
 
   def render(template_path, locals = {})
@@ -131,8 +136,22 @@ class Jobler::BaseJobler
     raise NoMethodError, "You should define the 'result' method on #{self.class.name}"
   end
 
+  # Tells the user where the job currently is. Text that is identical to what is
+  # already stored is not written again, so a jobler can report the same status for
+  # every record without that becoming one database write and one broadcast each.
   def status_title!(value)
-    job.update!(status_title: value)
+    unless job.has_attribute?(:status_title)
+      raise "Jobler::Job has no 'status_title' column, so status text cannot be stored. " \
+            "Install the Jobler migration 20260219090000_add_status_title_to_jobler_jobs."
+    end
+
+    new_value = value.to_s
+    new_value = nil if new_value.empty?
+
+    return if new_value == @_status_title
+
+    job.update!(status_title: new_value)
+    @_status_title = new_value
   end
 
   def temp_file_for_result(name:)
@@ -154,6 +173,51 @@ class Jobler::BaseJobler
   end
 
 private
+
+  def _counts_write?
+    return true if @_progress_last_written_at.nil?
+
+    (Time.zone.now - @_progress_last_written_at) >= COUNTS_WRITE_MINIMUM_INTERVAL_SECONDS
+  end
+
+  def _progress_fraction(total)
+    return nil if total.nil? || total.zero?
+
+    progress = @_progress_count.to_f / total
+    [progress, 1.0].min
+  end
+
+  def _progress_write?(progress, force:)
+    return true if force
+    return _counts_write? if progress.nil?
+
+    # Reaching the end is always written: without this the last step falls inside
+    # the throttle and a finished job is left stored at 999 of 1000.
+    return true if progress >= 1.0
+    return true if @_progress_last_written.nil?
+
+    (progress - @_progress_last_written) > PROGRESS_WRITE_MINIMUM_DIFFERENCE
+  end
+
+  def _progress_attributes(total, progress)
+    attributes = {progress_current_count: @_progress_steps.to_i}
+    attributes[:progress] = progress if progress
+    attributes[:progress_total_count] = total.to_i if total
+
+    # An app that has not installed 20261126090000 yet keeps reporting progress, just without counts.
+    attributes.select { |name, _value| job.has_attribute?(name) }
+  end
+
+  def _update_progress(force:)
+    total = @_progress_total
+    progress = _progress_fraction(total)
+
+    return unless _progress_write?(progress, force: force)
+
+    job.update!(_progress_attributes(total, progress))
+    @_progress_last_written = progress
+    @_progress_last_written_at = Time.zone.now
+  end
 
   def handle_file(jobler_result:, save_in_database:, temp_file:)
     if save_in_database

@@ -27,12 +27,19 @@ class Jobler::JobsController < Jobler::ApplicationController
 private
 
   def job_payload
-    {
+    payload = {
       headline: @job.status_title.presence || @job.state.humanize,
       progress: @job.progress,
       state: @job.state,
       state_humanized: @job.state.humanize,
       status_title: @job.status_title
     }
+
+    if @job.progress_counts_available?
+      payload[:progress_current_count] = @job.progress_current_count
+      payload[:progress_total_count] = @job.progress_total_count
+    end
+
+    payload
   end
 end

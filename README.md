@@ -192,6 +192,10 @@ class MyJobler < ApplicationJobler
 end
 ```
 
+`progress_total` and `increment_progress!` also store the raw counts in `progress_total_count` and `progress_current_count`, which the status page shows as "37 of 214" next to the bar. Those columns come from the `20261126090000_add_progress_counts_to_jobler_jobs` migration; an app that has not installed it keeps reporting the percentage, just without counts.
+
+Progress is written at most once per percent of a job, and status text only when the text actually changes. A jobler that reports progress once per record therefore does not cause one database write and one broadcast per record.
+
 ## License
 
 This project rocks and uses MIT-LICENSE.

@@ -16,21 +16,39 @@ class Jobler::JobRunner < ActiveJob::Base # rubocop:disable Rails/ApplicationJob
         end
       end
 
-      @job.update!(ended_at: Time.zone.now, progress: 1.0, state: "completed")
+      complete_job
     rescue Exception => e # rubocop:disable Lint/RescueException
-      @job.update!(
-        ended_at: Time.zone.now,
-        error_message: e.message,
-        error_type: e.class.name,
-        error_backtrace: e.backtrace.join("\n"),
-        state: "error"
-      )
-
-      @job.jobler.call_error_callbacks(e)
+      fail_job(e)
     end
   end
 
 private
+
+  def complete_job
+    completion_attributes = {ended_at: Time.zone.now, progress: 1.0, state: "completed"}
+
+    # A finished job has run every step it declared, so the counts are closed out
+    # rather than left at whatever the last throttled write happened to store.
+    completion_attributes[:progress_current_count] = @job.progress_total_count if jobler_declared_steps?
+
+    @job.update!(completion_attributes)
+  end
+
+  def fail_job(error)
+    @job.update!(
+      ended_at: Time.zone.now,
+      error_backtrace: error.backtrace.join("\n"),
+      error_message: error.message,
+      error_type: error.class.name,
+      state: "error"
+    )
+
+    @job.jobler.call_error_callbacks(error)
+  end
+
+  def jobler_declared_steps?
+    @job.progress_counts_available? && @job.progress_total_count.to_i.positive?
+  end
 
   def with_locale(&blk)
     if @job.locale?

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_19_090000) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_26_090000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -57,6 +57,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_19_090000) do
     t.string "protocol"
     t.integer "port"
     t.string "status_title"
+    t.integer "progress_current_count", default: 0, null: false
+    t.integer "progress_total_count", default: 0, null: false
     t.index ["slug"], name: "index_jobler_jobs_on_slug", unique: true
   end
 

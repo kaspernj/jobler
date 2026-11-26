@@ -1,3 +1,7 @@
+- Add `progress_current_count` and `progress_total_count` to `jobler_jobs` (migration `20261126090000_add_progress_counts_to_jobler_jobs`). `progress_total` and `increment_progress!` keep them in sync, and the status page shows them as "37 of 214" next to the bar.
+- Throttle progress writes to about once per percent of a job, and skip status-title writes while the text is unchanged, so reporting progress once per record does not become one database write and one broadcast per record.
+- `Jobler::JobRunner` closes the progress counts out to the declared total when a job completes, so a finished job is never left stored at 999 of 1000.
+- Fix the built-in live job page: it polled a `data-job-path` attribute the view never rendered, so progress never updated. It now polls `data-path` and updates the percentage, the counts and `aria-valuenow`.
 - Add `on_error` callbacks to `Jobler::BaseJobler`, called by `Jobler::JobRunner` with the exception after the failure has been recorded on the job.
 - Add `release:patch` Rake task to bump patch version, run `bundle`, commit and push to `master`, then `gem build` and `gem push`.
 - Document `release:patch` usage and behavior in `README.md`.
